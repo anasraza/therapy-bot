@@ -1,0 +1,38 @@
+{
+  "exercises": {
+    "elbow": [
+      "extension-flexion"
+    ],
+    "knee": [
+      "hamstrings-angle",
+      "extension"
+    ],
+    "forearm": [
+      "supination-pronation"
+    ],
+    "wrist": [
+      "fingers-extended",
+      "fingers-flexed"
+    ],
+    "shoulder": [
+      "rotation"
+    ],
+    "hip": [
+      "abduction-flexed",
+      "abduction-extended",
+      "rotation",
+      "flexion",
+      "staheli-test",
+      "ely-test",
+      "thomas-test"
+    ],
+    "ankle": [
+      "knee-flexion",
+      "knee-extension"
+    ]
+  },
+  "dances": [
+    "macarena",
+    "sprinkler"
+  ]
+}
