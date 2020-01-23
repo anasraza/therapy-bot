@@ -1,3 +1,3 @@
 """
-Files related to networking and communication
+Files related to networking and communication (i.e. everything)
 """

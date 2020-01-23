@@ -1,10 +1,10 @@
 {
   "exercises": {
     "elbow": [
-      "extension-flexion"
+      "elbow-extension-flexion"
     ],
     "knee": [
-      "hamstrings-angle",
+      "knee-hamstrings-angle",
       "extension"
     ],
     "forearm": [
