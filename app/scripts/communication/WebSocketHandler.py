@@ -17,7 +17,8 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         self.signal_handler = None
 
     def initialize(self, nao_wrapper):
-        self.nao = nao_wrapper
+        """This method is from Tornado for getting parameters passed into websocket handler"""
+        self.nao = nao_wrapper  # do not do in __init__
 
     def data_received(self, chunk):
         """Not sure (yet) how/when to use this method, but needed to implement it so I did"""
@@ -25,21 +26,25 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def open(self):
         print('New connection')
-        # self.write_message("Hello Client, you have connected")
-        data = {'type': "Info", 'action': "Client Connected", 'name': "You have successfully connected"}
+        data = {'type': "Info", 'action': "Client Connected", 'description': "You have successfully connected"}
         self.request_handler = RequestHandler(self.nao)
-        self.signal_handler = SignalHandler(self)  # init outside classes in open(), that want to use send(message)
-        self.write_message(json.dumps(data))
+        self.signal_handler = SignalHandler(self, self.nao)  # init classes here, that want to send messages to client
+
+        # connect signal handlers
+        self.signal_handler.behaviour_started()
+        self.signal_handler.behaviour_stopped()
+        self.signal_handler.speaking_done()  # this is optional (for testing)
+
+        self.write_message(json.dumps(data))    # send the "welcome message"
 
     def on_message(self, message):
         print 'Client said:  %s' % message
         # TODO: parse this message as 'request'; client expected to follow format of msg;
 
-        response = self.request_handler.make_response(message)
+        response = self.request_handler.get_response(message)
 
         print 'Sending Back: %s' % response
         self.write_message(response)
-        # tts.say(message)
 
     def on_close(self):
         print('Connection closed.')
@@ -50,4 +55,6 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def send(self, message):
         """For use by outside classes who want WebSocket to write message to client
         Not sure if separating it like this provides any benefit  - but I like to think it does"""
+        # TODO maybe modify this method to accept a type/action/description, then use request handler to make
+        #  response before sending? (also maybe use a consistent term: either message or response?)
         self.write_message(message)
