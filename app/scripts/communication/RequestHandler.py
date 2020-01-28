@@ -15,6 +15,9 @@ class RequestHandler:
     def __init__(self, nao_wrapper):
         self.response = None    # will be set by the _make_response method
         self.nao = nao_wrapper
+        self.type = None
+        self.action = None
+        self.description = None
 
     def get_response(self, request):
         """Method used by web socket handler wanting to get a response to send client
@@ -27,29 +30,32 @@ class RequestHandler:
             return self.response
 
         # instruction = instruction.replace("")
-        type = instruction['type']
-        action = instruction['action']
-        description = instruction['description']
+        self.type = instruction['type']
+        self.action = instruction['action']
+        self.description = instruction['description']
 
         # TODO parse the 'description' to create the callable behaviour names for BM
-        if type == "command":
-            if action == "start":
+        if self.type == "command":
+            if self.action == "start":
                 # if behaviour names are hard-coded by client app, no need to use make_name()
                 # in that case, the description is the name to be used (to call behaviour)
-                if not self.nao.start_behaviour(description):
+                if not self.nao.start_behaviour(self.description):
                     self._make_response('Error', 'Could Not Start Behaviour', 'Behaviour %s is not installed.'
-                                        % description)
+                                        % self.description)
+                    return self.response
                 # else do nothing (signal handler should automatically send response when behaviour starts/stops)
-            if action == "stop":
-                if not self.nao.stop_behaviour(description):
+            if self.action == "stop":
+                if not self.nao.stop_behaviour(self.description):
                     self._make_response('Error', 'Could Not Stop Behaviour', 'Behaviour %s is not running.'
-                                        % description)
+                                        % self.description)
+                    return self.response
 
                 # else do nothing (signal handler should automatically send response when behaviour starts/stops)
             else:
                 # action not supported
                 self._make_response('Error', 'Invalid Action', 'Action "%s" is not valid. See documentation for help.'
-                                    % action)
+                                    % self.action)
+                return self.response
 
         # elif type == "request":  # NOTE: not using this for now; the app dev team wants to hard-code this!!
         #     abs_path = os.path.abspath(os.path.dirname(__file__))   # get current directory
@@ -59,9 +65,10 @@ class RequestHandler:
         #         json_string = json.dumps(data)
         #         self.response = json_string
         else:
-            self._make_response('Error', 'Invalid Type', 'Type "%s" is not valid. See documentation for help.' % type)
+            self._make_response('Error', 'Invalid Type', 'Type "%s" is not valid. See documentation for help.' % self.type)
+            return self.response
 
-        return self.response
+        return self.response    # nothing went wrong, send the response
 
     def _make_response(self, type_, action, description):
         """

@@ -12,7 +12,7 @@
  <contents/>
  <requirements>
   <naoqiRequirement minVersion="2.3"/>
-  <robotRequirement/>
+  <robotRequirement model="NAO"/>
  </requirements>
  <services>
   <service execStart="/usr/bin/python2 scripts/wrapperservice.py" name="wrapperservice" autorun="true"/>
