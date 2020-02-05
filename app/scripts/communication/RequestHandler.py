@@ -44,6 +44,7 @@ class RequestHandler:
                                         % self.description)
                     return self.response
                 # else do nothing (signal handler should automatically send response when behaviour starts/stops)
+                self._make_response('Update', 'Instruction Completed', 'Starting the requested behaviour...')
             elif self.action == "stop":
                 if self.description == "all":
                     self.nao.stop_all_behaviours()

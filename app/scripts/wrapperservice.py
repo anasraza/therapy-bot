@@ -47,7 +47,7 @@ class WrapperService(object):
         """Starts a server in background thread"""
         # time.sleep(60)
         # Starting the server as background thread
-        self.nao.speak("Setting up server...")
+        # self.nao.speak("Setting up server...")
         # create the server as background thread
         # pass the Nao Wrapper to server
         # NOTE: this thread is never closed
@@ -57,7 +57,7 @@ class WrapperService(object):
 
         # Server(self.s).test()
 
-        self.nao.speak("Server is ready!")
+        self.nao.speak("Ready to connect!")
 
     @qi.bind(returnType=qi.Void, paramsType=[qi.Int8])
     def set(self, level):

@@ -21,8 +21,8 @@ class NaoQiWrapper:
             print("Error: Behaviour %s is already running!" % name)
             return False
         # self.al.setState("disabled")
-        self.bm.startBehavior(name)
-        # self.al.switchFocus(name)
+        # self.bm.startBehavior(name)
+        self.al.switchFocus(name)
         # self.speak("Started Behaviour %s" % name)   # TODO remove these test speaks in these two methods
         return True
 
