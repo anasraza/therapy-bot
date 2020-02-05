@@ -39,40 +39,16 @@ class WrapperService(object):
         self.nao = NaoQiWrapper(self.s)  # wrapper for accessing nao api modules/methods
         self.setup()
 
-        # Internal variables
-        self.level = 0
-
     @qi.bind(returnType=qi.Void, paramsType=[])
     def setup(self):
         """Starts a server in background thread"""
-        # time.sleep(60)
-        # Starting the server as background thread
-        # self.nao.speak("Setting up server...")
-        # create the server as background thread
-        # pass the Nao Wrapper to server
+
         # NOTE: this thread is never closed
         thread = threading.Thread(target=Server(self.nao).serve)
         thread.daemon = True
         thread.start()
 
-        # Server(self.s).test()
-
         self.nao.speak("Ready to connect!")
-
-    @qi.bind(returnType=qi.Void, paramsType=[qi.Int8])
-    def set(self, level):
-        """Set level"""
-        self.level = level
-
-    @qi.bind(returnType=qi.Int8, paramsType=[])
-    def get(self):
-        """Get level"""
-        return self.level
-
-    @qi.bind(returnType=qi.Void, paramsType=[])
-    def reset(self):
-        """Reset level to default value"""
-        return self.set(0)
 
     @qi.bind(returnType=qi.Void, paramsType=[])
     def stop(self):

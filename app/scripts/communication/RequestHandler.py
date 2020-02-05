@@ -19,6 +19,7 @@ class RequestHandler:
         self.action = None
         self.description = None
 
+    # TODO - this method does too much; should be split up
     def get_response(self, request):
         """Method used by web socket handler wanting to get a response to send client
         NOTE: Assuming request will be a valid JSON string"""
@@ -30,6 +31,7 @@ class RequestHandler:
             return self.response
 
         # instruction = instruction.replace("")
+        # TODO should have checks here for if the keys do not exist (right now I assume client follows format)
         self.type = instruction['type']
         self.action = instruction['action']
         self.description = instruction['description']
@@ -43,7 +45,8 @@ class RequestHandler:
                     self._make_response('Error', 'Could Not Start Behaviour', 'Behaviour %s is not installed.'
                                         % self.description)
                     return self.response
-                # else do nothing (signal handler should automatically send response when behaviour starts/stops)
+                # IMPORTANT: This make_response below is *crucial* - otherwise WebSocket closes after each request
+                # I have not reviewed the code well enough to understand why, but just do it for now...
                 self._make_response('Update', 'Instruction Completed', 'Starting the requested behaviour...')
             elif self.action == "stop":
                 if self.description == "all":

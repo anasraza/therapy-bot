@@ -39,8 +39,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         print 'Client said:  %s' % message
-        # TODO: parse this message as 'request'; client expected to follow format of msg;
-
+        # TODO - checks needed for this 'response'; lots of room for errors
         response = self.request_handler.get_response(message)
 
         print 'Sending Back: %s' % response

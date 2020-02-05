@@ -13,17 +13,14 @@ class NaoQiWrapper:
     # Note: NAOqi API uses American-English spelling (e.g. no 'u' in 'behaviour'); I use British-English spelling
     def start_behaviour(self, name):
         """Assumes that 'name' is in correct format i.e. 'application-name/behaviour-name' as in Choregraphe'"""
-        # TODO checks to make sure it is installed and not running already
         if not self.bm.isBehaviorInstalled(name):
             print("Error: Behaviour %s not installed." % name)
             return False
         if self.bm.isBehaviorRunning(name):
             print("Error: Behaviour %s is already running!" % name)
             return False
-        # self.al.setState("disabled")
         # self.bm.startBehavior(name)
         self.al.switchFocus(name)
-        # self.speak("Started Behaviour %s" % name)   # TODO remove these test speaks in these two methods
         return True
 
     def stop_behaviour(self, name):
@@ -35,8 +32,6 @@ class NaoQiWrapper:
             print("Error: Behaviour %s is not running." % name)
             return False
         self.bm.stopBehavior(name)
-        # self.mp.setFallManagerEnabled(True)
-        # self.speak("Stoped Behaviour %s" % name)
         return True
 
     def stop_all_behaviours(self):
