@@ -9,6 +9,7 @@ import stk.runner
 import stk.events
 import stk.services
 import stk.logging
+import time
 
 import threading
 
@@ -34,8 +35,8 @@ class WrapperService(object):
         self.events = stk.events.EventHelper(qiapp.session)
         self.s = stk.services.ServiceCache(qiapp.session)  # allows accessing API modules
         self.logger = stk.logging.get_logger(qiapp.session, self.APP_ID)
-        self.nao = NaoQiWrapper(self.s) # wrapper for accessing nao api modules/methods
         # call the setup method to start server
+        self.nao = NaoQiWrapper(self.s)  # wrapper for accessing nao api modules/methods
         self.setup()
 
         # Internal variables
@@ -44,10 +45,9 @@ class WrapperService(object):
     @qi.bind(returnType=qi.Void, paramsType=[])
     def setup(self):
         """Starts a server in background thread"""
-
+        # time.sleep(60)
         # Starting the server as background thread
         self.nao.speak("Setting up server...")
-
         # create the server as background thread
         # pass the Nao Wrapper to server
         # NOTE: this thread is never closed
@@ -56,7 +56,6 @@ class WrapperService(object):
         thread.start()
 
         # Server(self.s).test()
-
 
         self.nao.speak("Server is ready!")
 

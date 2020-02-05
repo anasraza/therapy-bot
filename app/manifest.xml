@@ -11,10 +11,10 @@
  </descriptionLanguages>
  <contents/>
  <requirements>
-  <naoqiRequirement minVersion="2.3"/>
+  <naoqiRequirement minVersion="2.1"/>
   <robotRequirement model="NAO"/>
  </requirements>
  <services>
-  <service execStart="/usr/bin/python2 scripts/wrapperservice.py" name="wrapperservice" autorun="true"/>
+  <service execStart="/usr/bin/python2 scripts/wrapperservice.py"  name="wrapperservice" autorun="true"/>
  </services>
 </package>

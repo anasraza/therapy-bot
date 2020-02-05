@@ -2,7 +2,7 @@ shoulder/shoulder-rotation
 elbow/elbow-extension-flexion
 forearm/forearm-supination-pronation
 wrist/fingers-extended
-wrist/finger-flexed
+wrist/fingers-flexed
 ankle/knee-extension
 ankle/knee-flexion
 knee/hamstrings-angle

@@ -7,6 +7,7 @@ class NaoQiWrapper:
         self.sess = qi_session    # qi_session (actually service cache from stk/services)
         self.tts = self.sess.ALTextToSpeech
         self.bm = self.sess.ALBehaviorManager
+        self.al = self.sess.ALAutonomousLife
         # init whatever other API modules needed
 
     # Note: NAOqi API uses American-English spelling (e.g. no 'u' in 'behaviour'); I use British-English spelling
@@ -16,9 +17,13 @@ class NaoQiWrapper:
         if not self.bm.isBehaviorInstalled(name):
             print("Error: Behaviour %s not installed." % name)
             return False
-
+        if self.bm.isBehaviorRunning(name):
+            print("Error: Behaviour %s is already running!" % name)
+            return False
+        # self.al.setState("disabled")
         self.bm.startBehavior(name)
-        self.speak("Started Behaviour %s" % name)   # TODO remove these test speaks in these two methods
+        # self.al.switchFocus(name)
+        # self.speak("Started Behaviour %s" % name)   # TODO remove these test speaks in these two methods
         return True
 
     def stop_behaviour(self, name):
@@ -30,11 +35,12 @@ class NaoQiWrapper:
             print("Error: Behaviour %s is not running." % name)
             return False
         self.bm.stopBehavior(name)
-        self.speak("Stoped Behaviour %s" % name)
+        # self.mp.setFallManagerEnabled(True)
+        # self.speak("Stoped Behaviour %s" % name)
         return True
 
     def stop_all_behaviours(self):
-        """Currently (2020-01-28) not being called by server (but should stop all behaviours not critical)"""
+        """Stops all behaviours..."""
         self.bm.stopAllBehaviors()
 
     def speak(self, text):

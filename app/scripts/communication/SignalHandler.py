@@ -1,4 +1,7 @@
 # TODO: THIS ENTIRE CLASS NEEDS UPDATE!! Because it no longer uses "Sess" and should now use "NAO"
+import json
+
+
 class SignalHandler:
     """
     Class that catches qi signals and connects them to callback methods
@@ -27,20 +30,20 @@ class SignalHandler:
 
     def _starting_update(self, name):
         """This is a callback method called when behaviorStarted signal is fired"""
-        msg = {'type': "Update", 'action': "Behaviour Started", 'description': "Behaviour %s has started."} % name
-        self.ws.send(msg)
-        print("Callback: " + msg)
+        msg = {'type': "Update", 'description': "Behaviour %s has started." % name, 'action': "Behaviour Started"}
+        self.ws.send(json.dumps(msg))
+        print("--BHVR STARTED--: " + name)
 
     def _stopping_update(self, name):
         """This is a callback method called when behaviorStopped signal is fired"""
-        msg = {'type': "Update", 'action': "Behaviour Stopped", 'description': "Behaviour %s has stopped."} % name
-        self.ws.send(msg)
+        msg = {'type': "Update", 'description': "Behaviour %s has stopped." % name, 'action': "Behaviour Stopped"}
+        self.ws.send(json.dumps(msg))
+        print("--BHVR STOPPED--" + name)
 
     def _text_done(self, val):
         """Callback method when nao stops speaking"""
         msg = "Done talking. Value is: " + str(val)
-        self.ws.send(msg)
-        print("Callback: " + msg)
+        self.ws.send(json.dumps(msg))
 
     def _test_ws(self):
         self.ws.send("Test Message Sent From Signal Handler")

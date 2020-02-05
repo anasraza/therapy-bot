@@ -34,7 +34,7 @@ class RequestHandler:
         self.action = instruction['action']
         self.description = instruction['description']
 
-        # TODO parse the 'description' to create the callable behaviour names for BM
+        # TODO probably could find a more elegant way of doing all this...
         if self.type == "command":
             if self.action == "start":
                 # if behaviour names are hard-coded by client app, no need to use make_name()
@@ -44,7 +44,10 @@ class RequestHandler:
                                         % self.description)
                     return self.response
                 # else do nothing (signal handler should automatically send response when behaviour starts/stops)
-            if self.action == "stop":
+            elif self.action == "stop":
+                if self.description == "all":
+                    self.nao.stop_all_behaviours()
+                    self._make_response('Update', 'Instruction Completed', 'Stopped all running behaviours!')
                 if not self.nao.stop_behaviour(self.description):
                     self._make_response('Error', 'Could Not Stop Behaviour', 'Behaviour %s is not running.'
                                         % self.description)
@@ -68,7 +71,9 @@ class RequestHandler:
             self._make_response('Error', 'Invalid Type', 'Type "%s" is not valid. See documentation for help.' % self.type)
             return self.response
 
-        return self.response    # nothing went wrong, send the response
+        # nothing went wrong, (the response should've been made/sent already)
+        # self._make_response('Update', 'Instruction Completed', 'Instruction from client successfully completed!')
+        return self.response
 
     def _make_response(self, type_, action, description):
         """
