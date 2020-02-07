@@ -8,6 +8,7 @@ class NaoQiWrapper:
         self.tts = self.sess.ALTextToSpeech
         self.bm = self.sess.ALBehaviorManager
         self.al = self.sess.ALAutonomousLife
+        self.rp = self.sess.ALRobotPosture
         # init whatever other API modules needed
 
     # Note: NAOqi API uses American-English spelling (e.g. no 'u' in 'behaviour'); I use British-English spelling
@@ -40,6 +41,24 @@ class NaoQiWrapper:
 
     def speak(self, text):
         self.tts.say(text)
+
+    # TODO change this to use the regular start-stop behaviour thing
+    def go_to(self, position):
+        """Goes to the position requested in command (last-minute addition) """
+        if position == "sit":
+            # self.rp.goToPosture("Sitting", 0.5) # doing 0.5 because that's what the behaviours used as well
+            self.start_behaviour('dialog_posture/bhv_sit_down')
+            return True
+        if position == "stand":
+            # self.rp.goToPosture("Stand", 0.5)
+            self.start_behaviour('dialog_posture/bhv_stand_up')
+            return True
+        if position == "lie":
+            # self.rp.goToPosture("LyingBack", 0.5)
+            self.start_behaviour('dialog_posture/bhv_lie_down_back')    # this causes ERROR (fall-recovery kicks in)
+            return True
+        else:
+            return False
 
     # ------------
     # API MODULES FOR CLASSES THAT MAY WANT THEM, as of now, signal handlers

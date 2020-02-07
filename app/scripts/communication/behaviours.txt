@@ -1,18 +1,19 @@
-shoulder/shoulder-rotation
-elbow/elbow-extension-flexion
-forearm/forearm-supination-pronation
-wrist/fingers-extended
-wrist/fingers-flexed
-ankle/knee-extension
-ankle/knee-flexion
-knee/hamstrings-angle
-knee/knee-extension
-hip/hip-rotation
-hip/hip-flexion
-hip/abduction-flexed
-hip/abduction-extended
-hip/ely-test
-hip/staheli-test
-hip/thomas-test
-dance/macarena
-dance/sprinkler
+1. ankle/kneee-extension
+2. ankle/knee-flexion
+3. hip/hip-thomas-test
+4. hip/hip-rotation
+5. hip/ely-test
+6. hip/hip-staheli
+7. hip/hip-flexion
+8. hip/abduction-flexed
+9. hip/abduction-extended
+10. shoulder/shoulder-rotation
+11. knee/knee-extension
+12. knee/hamstrings-angle
+13. forearm/forearm-supination-pronation
+14. elbow/elbow-extension-flexion
+15. wrist/fingers-extended
+16. wrist/fingers-flexed
+17. dances/Macarena
+18. dances/Sprinkler
+19. taichi-dance-free/.

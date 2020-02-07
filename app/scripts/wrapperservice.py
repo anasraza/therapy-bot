@@ -27,7 +27,7 @@ class WrapperService(object):
     """
 
     # TODO: change this later
-    APP_ID = "com.aldebaran.WrapperService"
+    APP_ID = ".WrapperService"
 
     def __init__(self, qiapp):
         # generic activity boilerplate

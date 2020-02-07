@@ -13,7 +13,7 @@ class RequestHandler:
     """
 
     def __init__(self, nao_wrapper):
-        self.response = None    # will be set by the _make_response method
+        self.response = None  # will be set by the _make_response method
         self.nao = nao_wrapper
         self.type = None
         self.action = None
@@ -58,6 +58,11 @@ class RequestHandler:
                     return self.response
 
                 # else do nothing (signal handler should automatically send response when behaviour starts/stops)
+            elif self.action == "goto":
+                if self.nao.go_to(self.description):
+                    self._make_response('Update', 'Instruction Completed', 'Going to position %s.' % self.description)
+                else:
+                    self._make_response('Error', 'Invalid GoTo', 'Position %s is not valid' % self.description)
             else:
                 # action not supported
                 self._make_response('Error', 'Invalid Action', 'Action "%s" is not valid. See documentation for help.'
@@ -72,7 +77,8 @@ class RequestHandler:
         #         json_string = json.dumps(data)
         #         self.response = json_string
         else:
-            self._make_response('Error', 'Invalid Type', 'Type "%s" is not valid. See documentation for help.' % self.type)
+            self._make_response('Error', 'Invalid Type',
+                                'Type "%s" is not valid. See documentation for help.' % self.type)
             return self.response
 
         # nothing went wrong, (the response should've been made/sent already)
@@ -85,7 +91,7 @@ class RequestHandler:
         Params are the three dictionary keys/values
         Returns a string
         """
-        response = {'type': type_, 'action': action, 'description': description}   # create a dictionary
+        response = {'type': type_, 'action': action, 'description': description}  # create a dictionary
         response_string = json.dumps(response)
         self.response = response_string
 
